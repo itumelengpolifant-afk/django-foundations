@@ -29,10 +29,13 @@
         <p>{{ book.summary }}</p>
         {% if user.is_authenticated %}
             <div class="mt-4">
-                <a href="{% url 'library:book-edit' book.pk %}" class="btn
-                btn-outline-primary">Edit</a>
-                <a href="{% url 'library:book-delete' book.pk %}" class="btn
-                btn-outline-danger">Delete</a>
+                {% if perms.library.change_book %}
+                    <a href="{% url 'library:book-edit' book.pk %}" class="btn btn-outline-primary">Edit</a>
+                {% endif %}
+                {% if perms.library.delete_book %}
+                    <a href="{% url 'library:book_delete' book.pk %}" class="btn
+                    btn-outline-danger">Delete</a>
+                {% endif %}
             </div>
         {% endif %}
     </div>

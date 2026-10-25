@@ -1,6 +1,8 @@
 
 from django import forms
 from .models import Book
+from django.contrib.auth.forms import UserCreationForm
+from django.contrib.auth.models import User
 
 
 class BookModelForm(forms.ModelForm):
@@ -9,7 +11,7 @@ class BookModelForm(forms.ModelForm):
     class Meta:
         model = Book
         fields = [
-            'title', 'subtitle', 'author', 'publisher',
+            'title', 'subtitle', 'author', 'publisher', 'isbn',
             'publication_date', 'genre', 'pages', 'summary',
             'cover_image', 'language', 'is_available', 'rating',
         ]
@@ -50,6 +52,15 @@ class BookModelForm(forms.ModelForm):
 
         return title
 
+    def clean_isbn(self):
+        isbn = self.cleaned_data.get("isbn")
+
+        if isbn and Book.objects.filter(isbn=isbn).exists():
+            raise forms.ValidationError(
+                "A book with this ISBN already exists."
+            )
+
+        return isbn
 
 class BookSearchForm(forms.Form):
     # Form for searching and filtering books.
@@ -87,3 +98,22 @@ class BookSearchForm(forms.Form):
         self.fields['genre'].choices = [
             ('', 'All Genres')
         ] + list(Book.genre_choices)
+
+
+class RegisterForm(UserCreationForm):
+    email = forms.EmailField(required=True)
+
+    class Meta(UserCreationForm.Meta):
+        model = User
+        fields = ('username', 'email')
+
+    def save(self, commit=True):
+        user = super().save(commit=False)
+        user.email = self.cleaned_data['email']
+        if commit:
+            user.save()
+        return user
+
+
+
+

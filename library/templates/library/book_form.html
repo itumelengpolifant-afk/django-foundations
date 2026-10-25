@@ -19,13 +19,24 @@
             {% endfor %}
         </div>
     {% endfor %}
+    
     <div class="mt-3">
-        <button type="submit" class="btn btn-primary">{{ submit_text }}</button>
+        <button type="submit" class="btn btn-primary">
+            {% if book %}
+                Update Book
+            {% else %}
+                Save Book
+            {% endif %}
+        </button>
+
         {% if book %}
-            <a href="{% url 'library:book-detail' book.pk %}" class="btn btn-secondary">Cancel</a>
+            <a href="{% url 'library:book-detail' book.pk %}"
+            class="btn btn-secondary">Cancel</a>
         {% else %}
-            <a href="{% url 'library:book-list' %}" class="btn btn-secondary">Cancel</a>
+            <a href="{% url 'library:book-list' %}"
+            class="btn btn-secondary">Cancel</a>
         {% endif %}
     </div>
+
 </form>
 {% endblock %}

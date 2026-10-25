@@ -10,7 +10,8 @@ urlpatterns = [
     path('search-ajax/', views.book_search_ajax, name='book-search-ajax'),
     path('<int:pk>/', views.book_detail, name='book-detail'),
     path('<int:pk>/edit/', views.book_update, name='book-edit'),
-    path('<int:pk>/delete/', views.book_delete, name='book-delete'),
-    path('<int:pk>/toggle-availability/', views.book_toggle_availability,
-    name='book-toggle-availability'),
+    path('<int:pk>/delete/', views.book_delete, name='book_delete'),
+    path('<int:pk>/toggle-availability/', views.book_toggle_availability, name='book-toggle-availability'),
+    path('register/', views.register, name='register'),
+    path('profile/', views.profile, name='profile'),
 ]

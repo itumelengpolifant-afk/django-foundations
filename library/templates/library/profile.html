@@ -1,0 +1,17 @@
+
+{% extends 'base.html' %}
+
+{% block content %}
+<h1>{{ user.username }}</h1>
+
+<p>Email: {{ user.email }}</p>
+
+<p>
+    Role:
+    {% for g in user.groups.all %}
+        {{ g.name }}
+    {% empty %}
+        No role
+    {% endfor %}
+</p>
+{% endblock %}
